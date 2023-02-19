@@ -1,0 +1,5 @@
+[env]
+DATABASE_URL = "sqlite://data.db"
+CARGO_LOG = "debug"
+DATABASE_FILE = "database.db"
+LISTEN_ADDR = "0.0.0.0:8000"
