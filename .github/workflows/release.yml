@@ -47,13 +47,14 @@ jobs:
           os: ubuntu-latest
           rust: stable
           target: x86_64-unknown-linux-gnu
-          linker: x86_64-linux-gnu
+          arch: x86_64-linux-gnu
           cross: false
         - build: arm-v7
           os: ubuntu-latest
           rust: stable
           target: armv7-unknown-linux-gnueabihf
           linker: gcc-arm-linux-gnueabihf
+          arch: arm-linux-gnueabihf
           cross: true
         # - build: aarch64
         #   os: ubuntu-latest
@@ -88,14 +89,11 @@ jobs:
         sudo apt update
         sudo apt install ${{ matrix.linker }}
 
-    - name: Install Ubuntu deps
+    - name: Configure compilation variables
       if: matrix.os == 'ubuntu-latest'
       run: |
-        sudo apt update
-        sudo apt install libssl-dev pkg-config
-        echo "PKG_CONFIG_PATH=/usr/lib/${{ matrix.linker }}/pkgconfig" >> $GITHUB_ENV
-        echo "PKG_CONFIG_LIBDIR=/usr/lib/${{ matrix.linker }}/pkgconfig" >> $GITHUB_ENV
-        ls -lah /usr/lib/
+        echo "PKG_CONFIG_PATH=/usr/lib/${{ matrix.arch }}/pkgconfig" >> $GITHUB_ENV
+        echo "PKG_CONFIG_LIBDIR=/usr/lib/${{ matrix.arch }}/pkgconfig" >> $GITHUB_ENV
       # # On Ubuntu
       # sudo apt-get install libssl-dev
       # # On Arch Linux
