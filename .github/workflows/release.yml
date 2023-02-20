@@ -88,10 +88,18 @@ jobs:
         sudo apt install ${{ matrix.linker }}
 
     - name: Install Linker
-      if: ${{!matrix.cross}}
+      if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt update
         sudo apt install libssl-dev
+      # # On Ubuntu
+      # sudo apt-get install libssl-dev
+      # # On Arch Linux
+      # sudo pacman -S openssl
+      # # On Fedora
+      # sudo dnf install openssl-devel
+      # # On Alpine Linux
+      # apk add openssl-dev
 
     - name: Install Rust
       run: |
