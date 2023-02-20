@@ -99,14 +99,11 @@ jobs:
 
     - name: Build
       run: |
-        ls /usr/include
-        ls $OPENSSL_INCLUDE_DIR
         ls $OPENSSL_LIB_DIR
         cargo build --release --target ${{ matrix.target }}
       env:
         PKG_CONFIG_PATH: /usr/lib/${{ matrix.arch }}/pkgconfig
         OPENSSL_DIR: /usr/lib/${{ matrix.arch }}
-        OPENSSL_LIB_DIR: /usr/lib/${{ matrix.arch }}
         OPENSSL_INCLUDE_DIR: /usr/include/openssl
 
     - name: Package Artifacts
