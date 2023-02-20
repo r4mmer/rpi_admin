@@ -89,20 +89,6 @@ jobs:
         sudo apt update
         sudo apt install ${{ matrix.linker }}
 
-    - name: Configure compilation variables
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        echo "PKG_CONFIG_PATH=/usr/lib/${{ matrix.arch }}/pkgconfig" >> $GITHUB_ENV
-        echo "PKG_CONFIG_LIBDIR=/usr/lib/${{ matrix.arch }}/pkgconfig" >> $GITHUB_ENV
-      # # On Ubuntu
-      # sudo apt-get install libssl-dev
-      # # On Arch Linux
-      # sudo pacman -S openssl
-      # # On Fedora
-      # sudo dnf install openssl-devel
-      # # On Alpine Linux
-      # apk add openssl-dev
-
     - name: Install Rust
       run: |
         rustup install ${{ matrix.rust }}
@@ -110,7 +96,10 @@ jobs:
         rustup show
 
     - name: Build
-      run: cargo build --release --target ${{ matrix.target }}
+      run: |
+        cargo build --release --target ${{ matrix.target }}
+      env:
+        PKG_CONFIG_PATH: /usr/lib/${{ matrix.arch }}/pkgconfig
 
     - name: Package Artifacts
       run: |
